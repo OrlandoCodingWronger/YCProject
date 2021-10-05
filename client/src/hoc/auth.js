@@ -1,50 +1,45 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { auth } from '../_actions/user_action';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
+import { auth } from '../_actions/user_actions';
+import { useSelector, useDispatch } from "react-redux";
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default function(SpecificComponent, option, adminRoute = null){
-    // option 파라미터 설명.
-    // null => 아무나 출입이 가능함
-    // true => 로그인한 유저만 출입이 가능
-    // false => 로그인한 유저는 출입이 불가능한 페이지
-    // adminRoute 항목에 true 할경우, 어드민 유저만 진입이 가능함.
+export default function (SpecificComponent, option, adminRoute = null) {
+    function AuthenticationCheck(props) {
 
-    function AuthenticationCheck(props){
-
+        let user = useSelector(state => state.user);
         const dispatch = useDispatch();
 
-        useEffect(()=>{
-
-            dispatch(auth()).then(response=>{
-                console.log(response)
-
-                // 로그인 하지 않은 상태
-                if(!response.payload.isAuth){
-                    if(option){
+        useEffect(() => {
+            //To know my current status, send Auth request 
+            dispatch(auth()).then(response => {
+                //Not Loggined in Status 
+                if (!response.payload.isAuth) {
+                    if (option) {
                         props.history.push('/login')
                     }
-                }else{
-                    //로그인 한 상태
-                    if(adminRoute && !response.payload.isAdmin){
+                    //Loggined in Status 
+                } else {
+                    //supposed to be Admin page, but not admin person wants to go inside
+                    if (adminRoute && !response.payload.isAdmin) {
                         props.history.push('/')
-                    }else{
-                        if(option === false){
+                    }
+                    //Logged in Status, but Try to go into log in page 
+                    else {
+                        if (option === false) {
                             props.history.push('/')
                         }
                     }
-
                 }
-
             })
 
         }, [])
 
         return (
-            <SpecificComponent {...props} />
+            <SpecificComponent {...props} user={user} />
         )
-
     }
-
     return AuthenticationCheck
 }
+
+
