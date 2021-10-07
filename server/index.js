@@ -8,22 +8,27 @@ const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI,{
 }).then(() => console.log('MongoDB Connected...')).catch(err => console.log(err))
 // 몽고 DB 설정 끝.
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { auth } = require('./middleware/auth');
 const { User } = require("./models/User"); 
 
-// application/x-www-form-urlencoded
-app.use(express.urlencoded({extended: true}));
 // application/json
 app.use(express.json());
+// application/x-www-form-urlencoded
+app.use(express.urlencoded({extended: true}));
+
+
+//app.use('/api/users', require('./routes/users'));
+app.use('/api/video', 
+require('./routes/video'));
+
+// client에서  back서버에 있는 static한 파일들을 (이미지, css 파일, javascript 파일) 처리하기위한 코드.
+
+app.use('/uploads', express.static('uploads'));
+
 app.use(cookieParser());
 
-app.get('/', (req, res) => res.send('Hello World! ~ 안녕하세요 zzzkkk'))
-
-app.get('/api/hello',(req, res)=>{
-  res.send("안녕하세요 ~ ")
-})
+app.get('/', (req, res) => res.send('Hello World! ~ 안녕하세요'))
 
 app.post('/api/users/register',(req, res) => {
     // 회원 가입할 때 필요한 정보들을 client에서 가져오면

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Menu } from 'antd';
 import axios from 'axios';
@@ -14,7 +13,7 @@ function RightMenu(props) {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
-        alert('Log Out Failed')
+        alert('LogOut Failed')
       }
     });
   };
@@ -37,7 +36,7 @@ function RightMenu(props) {
           <a href="/video/upload">Upload!</a>
           </Menu.Item>
         <Menu.Item key="logout">
-          <a onClick={logoutHandler}>Logout</a>
+          <a href="#!" onClick={logoutHandler}>Logout</a>
         </Menu.Item>
       </Menu>
     )
