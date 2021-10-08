@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//const { Video } = require("../models/Video");
+const { Video } = require("../models/Video");
 const { auth } = require("../middleware/auth");
 const multer = require("multer");
 const ffmpeg = require("fluent-ffmpeg");
@@ -49,6 +49,30 @@ router.post('/uploadfiles',(req, res)=>{
     });
     //클라이언트에서 받은 비디오를 저장. 
 });
+
+router.post('/uploadVideo',(req, res)=>{
+   // 비디오 정보들을 저장한다. 클라이언트 측에서 보낸 모든 정보(variables)를 Request.body 를 통하여 받는다.
+   const video = new Video(req.body);
+
+   video.save((err, doc)=>{
+       if(err) return res.jason({success: false, err});
+       res.status(200).json({success: true});
+   });
+
+});
+
+router.get('/getVideos',(req, res)=>{
+    // 비디오를 DB에서 가져와서 클라이언트에 보낸다.
+
+    Video.find()
+        .populate('writer') // populate 하지 않으면 라이터의 아이디만 가져온다.
+        .exec((err, videos)=> {
+            if(err) return res.status(400).send(err);
+            res.status(200).json({success:true, videos});
+        });
+    
+ 
+ });
 
 router.post('/thumbnail',(req, res) => {
 
