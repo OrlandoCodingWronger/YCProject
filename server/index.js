@@ -21,6 +21,8 @@ app.use(express.urlencoded({extended: true}));
 //app.use('/api/users', require('./routes/users'));
 app.use('/api/video', 
 require('./routes/video'));
+app.use('/api/subscribe', 
+require('./routes/subscribe'));
 
 // client에서  back서버에 있는 static한 파일들을 (이미지, css 파일, javascript 파일) 처리하기위한 코드.
 

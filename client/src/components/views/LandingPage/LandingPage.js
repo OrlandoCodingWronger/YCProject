@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { FaCode } from "react-icons/fa";
+// import { FaCode } from "react-icons/fa";
 import {Card, Avatar, Col, Typography, Row} from 'antd';
-import Icon from '@ant-design/icons';
+// import Icon from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
 
